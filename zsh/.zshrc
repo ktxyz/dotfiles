@@ -102,3 +102,10 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+#
+
+# MacOS Vim Fix
+alias python="python3"
+
+export VIM_HOME=/usr/local/Cellar/vim/9.1.0900/
+export PATH=$PATH:$VIM_HOME/bin

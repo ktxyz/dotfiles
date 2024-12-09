@@ -5,6 +5,9 @@ sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/too
 echo "Stowing ZSH Configuration"
 stow zsh -t ~/
 
+echo "Installing VIM"
+brew install vim
+
 echo "Installing VimPlug"
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
