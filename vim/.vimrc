@@ -56,8 +56,9 @@ set noinfercase
 set completeopt-=preview
 set completeopt+=menuone,noselect
 " The following line assumes `brew install llvm` in macOS
-let g:clang_library_path = '/usr/local/opt/llvm/lib/libclang.dylib'
-let g:clang_user_options = '-std=c++17'
+let g:clang_library_path = '/opt/homebrew/opt/llvm/lib'
+let g:clang_user_options = '-std=c++17 -Wall -DDEGUB -I/opt/homebrew/opt/llvm/include/c++/v1'
+let g:clang_use_library=1
 let g:clang_complete_auto = 1
 let g:mucomplete#enable_auto_at_startup = 1
 " }}}

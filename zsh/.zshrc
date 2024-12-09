@@ -104,8 +104,13 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 #
 
-# MacOS Vim Fix
+# MacOS Fix
 alias python="python3"
 
-export VIM_HOME=/usr/local/Cellar/vim/9.1.0900/
+export VIM_HOME=/opt/homebrew/opt/vim/
 export PATH=$PATH:$VIM_HOME/bin
+
+export PATH="$(brew --prefix llvm)/bin:$PATH"
+export PATH="$(brew --prefix bison)/bin:$PATH"
+export PATH="$(brew --prefix flex)/bin:$PATH"
+
