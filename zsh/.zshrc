@@ -70,7 +70,7 @@ ZSH_THEME="af-magic"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git cp brew forklift tmux)
+plugins=(git cp brew forklift tmux copyfile copypath macos pip sudo ssh)
 
 source $ZSH/oh-my-zsh.sh
 
