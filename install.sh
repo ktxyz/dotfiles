@@ -48,15 +48,23 @@ run_link() {
     need_cmd stow
     info "Linking config with GNU Stow..."
     cd "$DOTFILES_DIR/home"
+
     for pkg in */; do
         pkg="${pkg%/}"
         info "  stow $pkg"
         stow -v --target="$HOME" --adopt "$pkg"
     done
-    # --adopt moves existing files into the stow package dirs,
-    # overwriting our repo copies. Restore them.
-    git -C "$DOTFILES_DIR" checkout -- home/
+
+    # --adopt pulled existing user files into home/, dirtying the repo.
+    # Stash them so we can restore repo versions but keep the user's
+    # originals recoverable.
+    if ! git -C "$DOTFILES_DIR" diff --quiet -- home/; then
+        info "Backing up adopted user configs to git stash..."
+        git -C "$DOTFILES_DIR" stash push -m "adopted-configs-$(date +%Y%m%d%H%M%S)" -- home/
+    fi
+
     ok "All configs linked."
+    info "If you need to recover previous configs: git stash list / git stash show -p"
 }
 
 run_configure() {
