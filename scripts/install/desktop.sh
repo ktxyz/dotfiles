@@ -24,10 +24,9 @@ need_root
 HYPR_REPO="/etc/xbps.d/hyprland-void.conf"
 HYPR_REPO_URL="https://raw.githubusercontent.com/Makrennel/hyprland-void/repository-x86_64-glibc"
 
-if [ ! -f "$HYPR_REPO" ]; then
-    info "Adding Hyprland repository..."
-    echo "repository=$HYPR_REPO_URL" > "$HYPR_REPO"
-fi
+# Always overwrite to fix stale/typo'd URLs from previous runs
+info "Configuring Hyprland repository..."
+echo "repository=$HYPR_REPO_URL" > "$HYPR_REPO"
 
 # xbps won't auto-accept signing keys even with -y, and stdin may not
 # be a terminal inside sudo (causing EAGAIN). Pipe "yes" to accept.
