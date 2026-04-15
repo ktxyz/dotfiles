@@ -21,9 +21,12 @@ fi
 # Hyprland repository (not in default Void repos)
 # ---------------------------------------------------------------------------
 HYPR_REPO="/etc/xbps.d/hyprland-void.conf"
-HYPR_REPO_URL="https://raw.githubusercontent.com/Makrennel/hyprland-void/repository-x86_64-glibc"
+HYPR_REPO_URL="https://github.com/void-land/hyprland-void-packages/releases/latest/download/"
 
-info "Configuring Hyprland repository..."
+# Remove stale Makrennel repo if present (has shlib version conflicts)
+sudo rm -f /etc/xbps.d/hyprland-void.conf
+
+info "Configuring Hyprland repository (void-land)..."
 sudo sh -c "echo 'repository=$HYPR_REPO_URL' > '$HYPR_REPO'"
 
 info "Syncing repositories (accept the signing key if prompted)..."
@@ -36,6 +39,9 @@ info "Installing desktop packages..."
 
 PACKAGES="
     hyprland
+    hyprutils
+    hyprlang
+    hyprland-protocols
     xdg-desktop-portal-hyprland
 
     hyprpaper
