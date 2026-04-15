@@ -57,6 +57,13 @@ run_desktop() {
         info "macOS detected, skipping desktop."
         return
     fi
+    # Set up the Hyprland repo and import its signing key here (not inside
+    # sudo sh) so xbps can prompt on the real terminal.
+    HYPR_REPO="/etc/xbps.d/hyprland-void.conf"
+    HYPR_REPO_URL="https://raw.githubusercontent.com/Makrennel/hyprland-void/repository-x86_64-glibc"
+    sudo sh -c "echo 'repository=$HYPR_REPO_URL' > '$HYPR_REPO'"
+    info "Syncing repos — accept the Hyprland signing key if prompted..."
+    sudo xbps-install -S
     info "Installing desktop environment..."
     sudo sh "$DOTFILES_DIR/scripts/install/desktop.sh"
 }

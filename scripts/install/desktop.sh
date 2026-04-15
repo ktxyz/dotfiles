@@ -28,10 +28,10 @@ HYPR_REPO_URL="https://raw.githubusercontent.com/Makrennel/hyprland-void/reposit
 info "Configuring Hyprland repository..."
 echo "repository=$HYPR_REPO_URL" > "$HYPR_REPO"
 
-# xbps won't auto-accept signing keys even with -y, and stdin may not
-# be a terminal inside sudo (causing EAGAIN). Pipe "yes" to accept.
+# The repo key should already be imported by install.sh before calling
+# this script. Just sync.
 info "Syncing repositories..."
-yes | xbps-install -S || die "Failed to sync repos. Try running 'sudo xbps-install -S' manually and accept the key."
+xbps-install -S
 
 # ---------------------------------------------------------------------------
 # Packages
