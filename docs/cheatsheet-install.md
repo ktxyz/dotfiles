@@ -14,9 +14,13 @@ This installs git (if missing), clones to `~/.dotfiles`, and runs `install.sh`.
 |---------------|-------------------------------------------|
 | (no flags)    | Run everything                            |
 | `--packages`  | Install system packages via xbps          |
+| `--drivers`   | Detect GPU + install drivers, WiFi/BT firmware |
+| `--desktop`   | Install Hyprland desktop stack + audio    |
 | `--python`    | Install python3 + UV package manager      |
 | `--link`      | Stow all configs from `home/` into `$HOME`|
 | `--configure` | Run interactive setup scripts (git identity, etc.) |
+
+`--drivers` and `--desktop` auto-skip on macOS.
 
 ## Stow Packages
 
@@ -25,10 +29,15 @@ inside mirrors `$HOME`.
 
 | Package | What It Links                                    |
 |---------|--------------------------------------------------|
-| `bash`  | `.bashrc`, `.bash_profile`, `.bash_logout`, `.inputrc`, `.config/bash/` |
-| `git`   | `.gitconfig`                                     |
-| `nvim`  | `.config/nvim/` (full neovim config)             |
-| `tmux`  | `.config/tmux/tmux.conf` (TPM auto-bootstraps)   |
+| `bash`   | `.bashrc`, `.bash_profile`, `.bash_logout`, `.inputrc`, `.config/bash/` |
+| `git`    | `.gitconfig`                                     |
+| `nvim`   | `.config/nvim/` (full neovim config)             |
+| `tmux`   | `.config/tmux/tmux.conf` (TPM auto-bootstraps)   |
+| `hypr`   | `.config/hypr/` (Hyprland, hypridle, hyprlock)   |
+| `waybar` | `.config/waybar/` (status bar config + CSS)      |
+| `foot`   | `.config/foot/foot.ini` (terminal + Tokyo Night) |
+| `mako`   | `.config/mako/config` (notifications)            |
+| `wofi`   | `.config/wofi/` (app launcher config + CSS)      |
 
 ### Adding a New Package
 
@@ -87,11 +96,19 @@ git config --file ~/.config/git/local user.email "new@email.com"
 ├── home/                     # stow packages
 │   ├── bash/
 │   ├── git/
-│   └── nvim/
+│   ├── nvim/
+│   ├── tmux/
+│   ├── hypr/
+│   ├── waybar/
+│   ├── foot/
+│   ├── mako/
+│   └── wofi/
 └── scripts/
     ├── lib/utils.sh
     ├── install/
     │   ├── packages.sh
+    │   ├── drivers.sh
+    │   ├── desktop.sh
     │   └── python.sh
     └── configure/
         └── git.sh

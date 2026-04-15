@@ -11,6 +11,8 @@ export DOTFILES_DIR
 # Argument parsing
 # ---------------------------------------------------------------------------
 do_packages=false
+do_drivers=false
+do_desktop=false
 do_python=false
 do_link=false
 do_configure=false
@@ -19,11 +21,13 @@ do_all=true
 for arg in "$@"; do
     case "$arg" in
         --packages)   do_packages=true;   do_all=false ;;
+        --drivers)    do_drivers=true;    do_all=false ;;
+        --desktop)    do_desktop=true;    do_all=false ;;
         --python)     do_python=true;     do_all=false ;;
         --link)       do_link=true;       do_all=false ;;
         --configure)  do_configure=true;  do_all=false ;;
         --help|-h)
-            printf 'Usage: install.sh [--packages] [--python] [--link] [--configure]\n'
+            printf 'Usage: install.sh [--packages] [--drivers] [--desktop] [--python] [--link] [--configure]\n'
             printf '  No flags = run everything.\n'
             exit 0
             ;;
@@ -37,6 +41,24 @@ done
 run_packages() {
     info "Installing system packages..."
     sudo sh "$DOTFILES_DIR/scripts/install/packages.sh"
+}
+
+run_drivers() {
+    if [ "$(detect_os)" = "darwin" ]; then
+        info "macOS detected, skipping drivers."
+        return
+    fi
+    info "Installing hardware drivers..."
+    sudo sh "$DOTFILES_DIR/scripts/install/drivers.sh"
+}
+
+run_desktop() {
+    if [ "$(detect_os)" = "darwin" ]; then
+        info "macOS detected, skipping desktop."
+        return
+    fi
+    info "Installing desktop environment..."
+    sudo sh "$DOTFILES_DIR/scripts/install/desktop.sh"
 }
 
 run_python() {
@@ -94,11 +116,15 @@ run_configure() {
 # ---------------------------------------------------------------------------
 if [ "$do_all" = true ]; then
     run_packages
+    run_drivers
+    run_desktop
     run_python
     run_link
     run_configure
 else
     [ "$do_packages"  = true ] && run_packages
+    [ "$do_drivers"   = true ] && run_drivers
+    [ "$do_desktop"   = true ] && run_desktop
     [ "$do_python"    = true ] && run_python
     [ "$do_link"      = true ] && run_link
     [ "$do_configure" = true ] && run_configure

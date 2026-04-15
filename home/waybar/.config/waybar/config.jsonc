@@ -1,0 +1,54 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 32,
+    "spacing": 0,
+
+    "modules-left": ["hyprland/workspaces"],
+    "modules-center": ["clock"],
+    "modules-right": ["network", "wireplumber", "backlight", "battery", "tray"],
+
+    "hyprland/workspaces": {
+        "format": "{id}",
+        "on-click": "activate",
+        "sort-by-number": true
+    },
+
+    "clock": {
+        "format": "{:%a %d %b  %H:%M}",
+        "tooltip-format": "<tt>{calendar}</tt>"
+    },
+
+    "network": {
+        "format-wifi": "  {essid}",
+        "format-ethernet": "  {ifname}",
+        "format-disconnected": "  disconnected",
+        "tooltip-format": "{ipaddr}/{cidr}"
+    },
+
+    "wireplumber": {
+        "format": "{icon} {volume}%",
+        "format-muted": " ",
+        "format-icons": ["", "", ""],
+        "on-click": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+    },
+
+    "backlight": {
+        "format": "{icon} {percent}%",
+        "format-icons": ["", ""]
+    },
+
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-icons": ["", "", "", "", ""]
+    },
+
+    "tray": {
+        "spacing": 8
+    }
+}

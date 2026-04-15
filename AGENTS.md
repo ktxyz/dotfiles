@@ -97,6 +97,33 @@ GNU Stow manages symlinks from `home/<package>/` into `$HOME`.
 - Session persistence via tmux-resurrect + tmux-continuum
 - Theme: tokyonight (matches nvim)
 
+### Hyprland Desktop Config
+
+- Config split into sourced files under `home/hypr/.config/hypr/`:
+  `hyprland.conf` (main), `theme.conf`, `keybinds.conf`, `autostart.conf`,
+  `hypridle.conf`, `hyprlock.conf`
+- Mod key: `Super`
+- All desktop components themed with **Tokyo Night** colors
+- Supporting configs: `home/waybar/`, `home/foot/`, `home/mako/`, `home/wofi/`
+- `--drivers` and `--desktop` install flags auto-skip on macOS (`detect_os = darwin`)
+
+#### Tokyo Night Color Reference
+
+| Name | Hex | Usage |
+|------|-----|-------|
+| bg | `#1a1b26` | backgrounds everywhere |
+| bg_dark | `#16161e` | waybar module bg, darker surfaces |
+| bg_highlight | `#292e42` | selections, hover states |
+| fg | `#c0caf5` | primary text |
+| fg_dark | `#a9b1d6` | secondary text |
+| comment | `#565f89` | muted/inactive elements |
+| blue | `#7aa2f7` | active borders, accents |
+| purple | `#bb9af7` | secondary accents |
+| red | `#f7768e` | errors, critical battery |
+| green | `#9ece6a` | battery, success |
+
+When theming any new component, use these exact hex values for consistency.
+
 ## Documentation Requirements
 
 **Cheatsheets must stay in sync with the actual configuration.**
@@ -106,6 +133,7 @@ When making changes:
 - If you add/remove/change a nvim keybind, update `docs/cheatsheet-nvim.md`
 - If you add/remove/change a bash alias or env var, update `docs/cheatsheet-bash.md`
 - If you add/remove/change a tmux keybind, update `docs/cheatsheet-tmux.md`
+- If you add/remove/change a Hyprland keybind or desktop config, update `docs/cheatsheet-hyprland.md`
 - If you change the install flow or add a stow package, update `docs/cheatsheet-install.md`
 - If you add a new stow package, update the package table in `docs/cheatsheet-install.md`
 
@@ -122,3 +150,6 @@ When making changes:
 | Add a PATH entry | Add to `home/bash/.config/bash/env.sh` (use dedup guard) |
 | Add a tmux keybind | Add to `home/tmux/.config/tmux/tmux.conf` |
 | Add a tmux plugin | Add `set -g @plugin '...'` in tmux.conf, then `<prefix> I` to install |
+| Add a Hyprland keybind | Add to `home/hypr/.config/hypr/keybinds.conf` |
+| Change desktop theme | Edit `home/hypr/.config/hypr/theme.conf` + waybar/mako/wofi CSS |
+| Add a desktop autostart app | Add `exec-once = ...` to `home/hypr/.config/hypr/autostart.conf` |
