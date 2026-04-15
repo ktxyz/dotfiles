@@ -62,7 +62,7 @@ run_desktop() {
         return
     fi
     info "Installing desktop environment..."
-    sudo "$DOTFILES_DIR/scripts/install/desktop.sh"
+    sh "$DOTFILES_DIR/scripts/install/desktop.sh"
 }
 
 run_python() {

@@ -1,5 +1,8 @@
 #!/bin/sh
 # Install Hyprland desktop stack, audio, and supporting tools.
+# This script runs as the NORMAL USER (not root) and uses sudo
+# for individual commands. This preserves the TTY so xbps can
+# prompt for signing key acceptance.
 set -e
 
 SCRIPTS_DIR="$(cd "$(dirname "$0")/.." && pwd)"
@@ -16,23 +19,20 @@ if [ "$OS" != "void" ]; then
     die "desktop.sh only supports Void Linux (detected: $OS)"
 fi
 
-need_root
-
 # ---------------------------------------------------------------------------
 # Hyprland repository (not in default Void repos)
 # ---------------------------------------------------------------------------
 HYPR_REPO="/etc/xbps.d/hyprland-void.conf"
 HYPR_REPO_URL="https://raw.githubusercontent.com/Makrennel/hyprland-void/repository-x86_64-glibc"
 
-# Always overwrite to fix stale/typo'd URLs from previous runs
 info "Configuring Hyprland repository..."
-echo "repository=$HYPR_REPO_URL" > "$HYPR_REPO"
+sudo sh -c "echo 'repository=$HYPR_REPO_URL' > '$HYPR_REPO'"
 
-# Sync repos. On first run xbps will prompt to accept the repo signing
-# key. This requires a TTY — install.sh must call this script with
-# `sudo <script>` (not `sudo sh <script>`) to preserve the terminal.
+# Sync repos. On first run xbps prompts for the signing key.
+# This MUST run with a TTY attached — that's why this script
+# runs as the user, not under `sudo sh`.
 info "Syncing repositories (accept the signing key if prompted)..."
-xbps-install -S </dev/tty
+sudo xbps-install -S
 
 # ---------------------------------------------------------------------------
 # Packages
@@ -68,14 +68,14 @@ PACKAGES="
 "
 
 # shellcheck disable=SC2086
-xbps-install -y $PACKAGES
+sudo xbps-install -y $PACKAGES
 
 # ---------------------------------------------------------------------------
 # Services
 # ---------------------------------------------------------------------------
 for svc in seatd dbus; do
     if [ ! -e "/var/service/$svc" ]; then
-        ln -s "/etc/sv/$svc" /var/service/
+        sudo ln -s "/etc/sv/$svc" /var/service/
         info "Enabled $svc service."
     fi
 done
@@ -83,11 +83,11 @@ done
 # ---------------------------------------------------------------------------
 # User groups
 # ---------------------------------------------------------------------------
-DESKTOP_USER="${SUDO_USER:-$(whoami)}"
+DESKTOP_USER="$(whoami)"
 
 for grp in _seatd audio video input; do
     if ! groups "$DESKTOP_USER" 2>/dev/null | grep -q "$grp"; then
-        usermod -aG "$grp" "$DESKTOP_USER"
+        sudo usermod -aG "$grp" "$DESKTOP_USER"
         info "Added $DESKTOP_USER to $grp group."
     fi
 done
@@ -96,13 +96,13 @@ done
 # PipeWire configuration
 # ---------------------------------------------------------------------------
 info "Configuring PipeWire..."
-mkdir -p /etc/pipewire/pipewire.conf.d
+sudo mkdir -p /etc/pipewire/pipewire.conf.d
 
 for conf in \
     /usr/share/examples/wireplumber/10-wireplumber.conf \
     /usr/share/examples/pipewire/20-pipewire-pulse.conf; do
     if [ -f "$conf" ] && [ ! -e "/etc/pipewire/pipewire.conf.d/$(basename "$conf")" ]; then
-        ln -s "$conf" /etc/pipewire/pipewire.conf.d/
+        sudo ln -s "$conf" /etc/pipewire/pipewire.conf.d/
     fi
 done
 
