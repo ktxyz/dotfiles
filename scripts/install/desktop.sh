@@ -22,17 +22,17 @@ need_root
 # Hyprland repository (not in default Void repos)
 # ---------------------------------------------------------------------------
 HYPR_REPO="/etc/xbps.d/hyprland-void.conf"
+HYPR_REPO_URL="https://raw.githubusercontent.com/Makrennel/hyprland-void/repository-x86_64-glibc"
+
 if [ ! -f "$HYPR_REPO" ]; then
     info "Adding Hyprland repository..."
-    echo "repository=https://raw.githubusercontent.com/Makrennel/hyprland-void/repository-x86_64-glibc" \
-        > "$HYPR_REPO"
+    echo "repository=$HYPR_REPO_URL" > "$HYPR_REPO"
 fi
 
-# Sync repos — must be interactive the first time so the user can
-# accept the hyprland-void repository's signing key fingerprint.
-# xbps intentionally ignores -y for key acceptance (security).
-info "Syncing repositories (accept the Hyprland repo key if prompted)..."
-xbps-install -S </dev/tty
+# xbps won't auto-accept signing keys even with -y, and stdin may not
+# be a terminal inside sudo (causing EAGAIN). Pipe "yes" to accept.
+info "Syncing repositories..."
+yes | xbps-install -S || die "Failed to sync repos. Try running 'sudo xbps-install -S' manually and accept the key."
 
 # ---------------------------------------------------------------------------
 # Packages
