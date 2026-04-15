@@ -26,10 +26,13 @@ if [ ! -f "$HYPR_REPO" ]; then
     info "Adding Hyprland repository..."
     echo "repository=https://raw.githubusercontent.com/Makrennel/hyprland-void/repository-x86_64-glibc" \
         > "$HYPR_REPO"
-    xbps-install -S
-else
-    ok "Hyprland repository already configured."
 fi
+
+# Sync repos — must be interactive the first time so the user can
+# accept the hyprland-void repository's signing key fingerprint.
+# xbps intentionally ignores -y for key acceptance (security).
+info "Syncing repositories (accept the Hyprland repo key if prompted)..."
+xbps-install -S </dev/tty
 
 # ---------------------------------------------------------------------------
 # Packages
