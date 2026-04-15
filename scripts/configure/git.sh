@@ -22,7 +22,7 @@ if [ -n "$current_name" ]; then
     name="$current_name"
 else
     printf 'Git name: '
-    read -r name
+    read -r name </dev/tty
     [ -z "$name" ] && die "Name cannot be empty."
 fi
 
@@ -30,7 +30,7 @@ if [ -n "$current_email" ]; then
     email="$current_email"
 else
     printf 'Git email: '
-    read -r email
+    read -r email </dev/tty
     [ -z "$email" ] && die "Email cannot be empty."
 fi
 

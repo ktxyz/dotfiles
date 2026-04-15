@@ -1,0 +1,19 @@
+$include /etc/inputrc
+
+# Case-insensitive tab completion
+set completion-ignore-case on
+
+# Show all matches on ambiguous completion immediately
+set show-all-if-ambiguous on
+
+# Treat hyphens and underscores as equivalent during completion
+set completion-map-case on
+
+# Append / to completed directory names
+set mark-directories on
+
+# Color files by type during completion (like ls)
+set colored-stats on
+
+# Don't ring bell on completion
+set bell-style none
