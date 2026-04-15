@@ -1,0 +1,20 @@
+---
+description: Rules for working on this dotfiles repository
+globs:
+alwaysApply: true
+---
+
+# Dotfiles Repository Rules
+
+Read and follow the guidelines in AGENTS.md at the repository root. It contains:
+- Architecture rules (directory structure, POSIX sh requirements, XDG compliance)
+- Neovim config conventions (lazy.nvim specs, keymap namespaces, how to add plugins/LSP servers)
+- Bash config conventions (fragment files, load order)
+- Documentation requirements (keep cheatsheets in docs/ in sync with any changes)
+
+Key points to always remember:
+- Shell scripts use POSIX sh (#!/bin/sh), not bash — except files under home/bash/
+- All scripts must be idempotent
+- Interactive reads use /dev/tty
+- Never commit secrets
+- When changing keymaps or configs, update the matching cheatsheet in docs/
