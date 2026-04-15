@@ -88,14 +88,24 @@ GNU Stow manages symlinks from `home/<package>/` into `$HOME`.
 - Add new config fragments as separate `.sh` files in `home/bash/.config/bash/`
 - Filename determines load order (alphabetical): `aliases.sh` < `env.sh` < `prompt.sh`
 
+### Tmux Config
+
+- Single file: `home/tmux/.config/tmux/tmux.conf` (XDG path, no `~/.tmux.conf`)
+- Prefix: `Ctrl-Space`
+- Plugins managed by TPM (auto-bootstraps on first launch)
+- Vim-style pane navigation (`h/j/k/l`), splits with `v`/`s`
+- Session persistence via tmux-resurrect + tmux-continuum
+- Theme: tokyonight (matches nvim)
+
 ## Documentation Requirements
 
 **Cheatsheets must stay in sync with the actual configuration.**
 
 When making changes:
 
-- If you add/remove/change a keybind, update `docs/cheatsheet-nvim.md`
+- If you add/remove/change a nvim keybind, update `docs/cheatsheet-nvim.md`
 - If you add/remove/change a bash alias or env var, update `docs/cheatsheet-bash.md`
+- If you add/remove/change a tmux keybind, update `docs/cheatsheet-tmux.md`
 - If you change the install flow or add a stow package, update `docs/cheatsheet-install.md`
 - If you add a new stow package, update the package table in `docs/cheatsheet-install.md`
 
@@ -110,3 +120,5 @@ When making changes:
 | Add an LSP server | Add to `ensure_installed` + `servers` in `plugins/lsp.lua` |
 | Add a bash alias | Add to `home/bash/.config/bash/aliases.sh` |
 | Add a PATH entry | Add to `home/bash/.config/bash/env.sh` (use dedup guard) |
+| Add a tmux keybind | Add to `home/tmux/.config/tmux/tmux.conf` |
+| Add a tmux plugin | Add `set -g @plugin '...'` in tmux.conf, then `<prefix> I` to install |

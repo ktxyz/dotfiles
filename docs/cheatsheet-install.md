@@ -28,6 +28,7 @@ inside mirrors `$HOME`.
 | `bash`  | `.bashrc`, `.bash_profile`, `.bash_logout`, `.inputrc`, `.config/bash/` |
 | `git`   | `.gitconfig`                                     |
 | `nvim`  | `.config/nvim/` (full neovim config)             |
+| `tmux`  | `.config/tmux/tmux.conf` (TPM auto-bootstraps)   |
 
 ### Adding a New Package
 
