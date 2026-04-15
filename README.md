@@ -8,7 +8,7 @@ each directory under `home/` is an independent config package.
 On a fresh machine with `curl`:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/ktxyz/dotfiles/main/bootstrap.sh | sh
+curl -fsSL https://raw.githubusercontent.com/ktxyz/dotfiles/master/bootstrap.sh | sh
 ```
 
 This will install `git` if missing, clone the repo to `~/.dotfiles`, install

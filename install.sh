@@ -51,8 +51,11 @@ run_link() {
     for pkg in */; do
         pkg="${pkg%/}"
         info "  stow $pkg"
-        stow -v --target="$HOME" --restow "$pkg"
+        stow -v --target="$HOME" --adopt "$pkg"
     done
+    # --adopt moves existing files into the stow package dirs,
+    # overwriting our repo copies. Restore them.
+    git -C "$DOTFILES_DIR" checkout -- home/
     ok "All configs linked."
 }
 
