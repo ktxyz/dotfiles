@@ -47,24 +47,39 @@ run_python() {
 run_link() {
     need_cmd stow
     info "Linking config with GNU Stow..."
-    cd "$DOTFILES_DIR/home"
 
+    backup_dir="$DOTFILES_DIR/.backup/$(date +%Y%m%d%H%M%S)"
+
+    # Collect every file that stow would manage and back up existing
+    # non-symlink copies before stow touches them.
+    cd "$DOTFILES_DIR/home"
+    for pkg in */; do
+        pkg="${pkg%/}"
+        # Walk the package to find every target file
+        find "$pkg" -type f | while read -r rel; do
+            target="$HOME/${rel#"$pkg"/}"
+            if [ -f "$target" ] && [ ! -L "$target" ]; then
+                dest="$backup_dir/$rel"
+                mkdir -p "$(dirname "$dest")"
+                cp "$target" "$dest"
+            fi
+        done
+    done
+
+    if [ -d "$backup_dir" ]; then
+        info "Backed up existing configs to $backup_dir"
+    fi
+
+    # Now stow is safe — adopt pulls existing files in, then we restore
+    # repo versions so the symlinks point to our config.
     for pkg in */; do
         pkg="${pkg%/}"
         info "  stow $pkg"
         stow -v --target="$HOME" --adopt "$pkg"
     done
-
-    # --adopt pulled existing user files into home/, dirtying the repo.
-    # Stash them so we can restore repo versions but keep the user's
-    # originals recoverable.
-    if ! git -C "$DOTFILES_DIR" diff --quiet -- home/; then
-        info "Backing up adopted user configs to git stash..."
-        git -C "$DOTFILES_DIR" stash push -m "adopted-configs-$(date +%Y%m%d%H%M%S)" -- home/
-    fi
+    git -C "$DOTFILES_DIR" checkout -- home/
 
     ok "All configs linked."
-    info "If you need to recover previous configs: git stash list / git stash show -p"
 }
 
 run_configure() {
