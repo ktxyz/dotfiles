@@ -1,6 +1,6 @@
 #!/bin/sh
-# Configure git user identity (name + email).
-# Skips if already set; safe to re-run.
+# Configure git user identity in a local file that .gitconfig includes.
+# This keeps the repo-tracked .gitconfig clean.
 set -e
 
 SCRIPTS_DIR="$(cd "$(dirname "$0")/.." && pwd)"
@@ -8,8 +8,11 @@ SCRIPTS_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 
 need_cmd git
 
-current_name="$(git config --global user.name 2>/dev/null || true)"
-current_email="$(git config --global user.email 2>/dev/null || true)"
+GIT_LOCAL="$HOME/.config/git/local"
+mkdir -p "$(dirname "$GIT_LOCAL")"
+
+current_name="$(git config --file "$GIT_LOCAL" user.name 2>/dev/null || true)"
+current_email="$(git config --file "$GIT_LOCAL" user.email 2>/dev/null || true)"
 
 if [ -n "$current_name" ] && [ -n "$current_email" ]; then
     ok "Git identity already configured: $current_name <$current_email>"
@@ -34,7 +37,7 @@ else
     [ -z "$email" ] && die "Email cannot be empty."
 fi
 
-git config --global user.name "$name"
-git config --global user.email "$email"
+git config --file "$GIT_LOCAL" user.name "$name"
+git config --file "$GIT_LOCAL" user.email "$email"
 
 ok "Git identity set: $name <$email>"

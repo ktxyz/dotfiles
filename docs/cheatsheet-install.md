@@ -58,9 +58,23 @@ Installed via `xbps-install`:
 ## Configure Scripts
 
 Scripts in `scripts/configure/` run interactively after linking.
-Currently: `git.sh` prompts for name/email (skips if already set).
+Currently: `git.sh` prompts for name/email and writes to `~/.config/git/local`
+(not the repo-tracked `.gitconfig`). Skips if already set.
 
 Drop new `*.sh` files into `scripts/configure/` and they run automatically.
+
+## Git Identity
+
+The stowed `.gitconfig` includes `~/.config/git/local` via `[include]`.
+Machine-specific settings (name, email, signing key) go in that local file
+so the repo stays clean and `git pull` never conflicts.
+
+To change your identity:
+
+```sh
+git config --file ~/.config/git/local user.name "New Name"
+git config --file ~/.config/git/local user.email "new@email.com"
+```
 
 ## Directory Layout
 

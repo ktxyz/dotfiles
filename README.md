@@ -63,10 +63,12 @@ dotfiles/
 
 ## After first install
 
-The installer prompts for your git name and email automatically. To re-run it
-later (or change values):
+The installer prompts for your git name and email automatically. Identity is
+stored in `~/.config/git/local` (not the repo), so re-running bootstrap or
+pulling updates never conflicts. To change values later:
 
 ```sh
 ./install.sh --configure
-# or directly: git config --global user.name "New Name"
+# or directly:
+git config --file ~/.config/git/local user.name "New Name"
 ```

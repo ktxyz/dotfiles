@@ -27,6 +27,10 @@ fi
 # --- Clone or update the repo ---
 if [ -d "$DOTFILES_DIR" ]; then
     _info "Dotfiles already cloned, pulling latest..."
+    if ! git -C "$DOTFILES_DIR" diff --quiet 2>/dev/null; then
+        _info "Stashing local changes..."
+        git -C "$DOTFILES_DIR" stash push -m "bootstrap-$(date +%Y%m%d%H%M%S)"
+    fi
     git -C "$DOTFILES_DIR" pull --ff-only
 else
     _info "Cloning dotfiles..."
