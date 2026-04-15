@@ -32,44 +32,30 @@ sudo sh -c "echo 'repository=$HYPR_REPO_URL' > '$HYPR_REPO'"
 info "Syncing repositories (accept the signing key if prompted)..."
 sudo xbps-install -S
 
+# Full system update first — shlib mismatches happen when the base
+# system is behind the third-party repo.
+info "Updating system..."
+sudo xbps-install -yu
+
 # ---------------------------------------------------------------------------
 # Packages
 # ---------------------------------------------------------------------------
-info "Installing desktop packages..."
+# Install all hyprland ecosystem packages in one transaction so their
+# shared libraries resolve against each other.
+info "Installing Hyprland ecosystem..."
+sudo xbps-install -y \
+    hyprland hyprutils hyprlang hyprcursor aquamarine \
+    hyprland-protocols hyprwayland-scanner \
+    xdg-desktop-portal-hyprland \
+    hyprpaper hypridle hyprlock
 
-PACKAGES="
-    hyprland
-    hyprutils
-    hyprlang
-    hyprland-protocols
-    xdg-desktop-portal-hyprland
-
-    hyprpaper
-    hypridle
-    hyprlock
-
-    Waybar
-    foot
-    wofi
-    mako
-
-    pipewire
-    wireplumber
-
-    grim
-    slurp
-    brightnessctl
-    wl-clipboard
-
-    seatd
-    dbus
-    polkit
-
+info "Installing desktop tools..."
+sudo xbps-install -y \
+    Waybar foot wofi mako \
+    pipewire wireplumber \
+    grim slurp brightnessctl wl-clipboard \
+    seatd dbus polkit \
     nerd-fonts
-"
-
-# shellcheck disable=SC2086
-sudo xbps-install -y $PACKAGES
 
 # ---------------------------------------------------------------------------
 # Services
