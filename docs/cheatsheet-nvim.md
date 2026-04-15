@@ -146,12 +146,19 @@ Source priority: LSP > Snippets > Path > Buffer
 | `Ctrl-Space` | Init / expand   |
 | `Backspace`  | Shrink          |
 
-## File Browser (oil.nvim)
+## File Explorer (neo-tree)
 
 | Key          | Action                          |
 |--------------|---------------------------------|
-| `<leader>e`  | Open file browser               |
-| `-`          | Open file browser               |
+| `<leader>e`  | Toggle sidebar tree             |
+
+Follows the current file. Shows dotfiles and gitignored files.
+
+## Oil (buffer-based file browser)
+
+| Key          | Action                          |
+|--------------|---------------------------------|
+| `<leader>-`  | Open oil                        |
 
 Edits to the oil buffer (rename, delete, create) apply to the filesystem on save.
 
