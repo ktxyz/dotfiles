@@ -42,7 +42,7 @@ PACKAGES="
     hypridle
     hyprlock
 
-    waybar
+    Waybar
     foot
     wofi
     mako
