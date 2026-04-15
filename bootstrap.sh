@@ -38,5 +38,8 @@ else
 fi
 
 # --- Hand off to the full installer ---
+# When piped from curl, stdin is not a terminal. Some install steps
+# (e.g. xbps key import) need interactive input. Use exec so the
+# installer gets a real TTY from /dev/tty.
 _info "Running installer..."
-sh "$DOTFILES_DIR/install.sh"
+exec sh "$DOTFILES_DIR/install.sh" </dev/tty

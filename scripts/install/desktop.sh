@@ -1,8 +1,6 @@
 #!/bin/sh
 # Install Hyprland desktop stack, audio, and supporting tools.
-# This script runs as the NORMAL USER (not root) and uses sudo
-# for individual commands. This preserves the TTY so xbps can
-# prompt for signing key acceptance.
+# Runs as normal user; uses sudo for privileged commands.
 set -e
 
 SCRIPTS_DIR="$(cd "$(dirname "$0")/.." && pwd)"
@@ -28,9 +26,6 @@ HYPR_REPO_URL="https://raw.githubusercontent.com/Makrennel/hyprland-void/reposit
 info "Configuring Hyprland repository..."
 sudo sh -c "echo 'repository=$HYPR_REPO_URL' > '$HYPR_REPO'"
 
-# Sync repos. On first run xbps prompts for the signing key.
-# This MUST run with a TTY attached — that's why this script
-# runs as the user, not under `sudo sh`.
 info "Syncing repositories (accept the signing key if prompted)..."
 sudo xbps-install -S
 
