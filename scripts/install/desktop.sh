@@ -28,10 +28,11 @@ HYPR_REPO_URL="https://raw.githubusercontent.com/Makrennel/hyprland-void/reposit
 info "Configuring Hyprland repository..."
 echo "repository=$HYPR_REPO_URL" > "$HYPR_REPO"
 
-# The repo key should already be imported by install.sh before calling
-# this script. Just sync.
-info "Syncing repositories..."
-xbps-install -S
+# Sync repos. On first run xbps will prompt to accept the repo signing
+# key. This requires a TTY — install.sh must call this script with
+# `sudo <script>` (not `sudo sh <script>`) to preserve the terminal.
+info "Syncing repositories (accept the signing key if prompted)..."
+xbps-install -S </dev/tty
 
 # ---------------------------------------------------------------------------
 # Packages
