@@ -50,6 +50,8 @@ GNU Stow manages symlinks from `home/<package>/` into `$HOME`.
   `lua/plugins/`
 - Each file in `lua/plugins/` returns a lazy.nvim spec table (or list of tables)
 - LSP servers are managed by **Mason** (`ensure_installed` in `plugins/lsp.lua`)
+- **No npm or Javascript dependencies** — all LSP servers must be standalone binaries
+  or pip-installed. Never add a server that requires npm or Javascript.
 - Leader key is `Space`
 
 #### Keymap Namespaces
@@ -74,9 +76,11 @@ GNU Stow manages symlinks from `home/<package>/` into `$HOME`.
 
 #### Adding an LSP Server
 
-1. Add the server name to `ensure_installed` in `plugins/lsp.lua`
-2. Add a config entry in the `servers` table in the same file
-3. Mason handles the binary installation
+1. **Verify the server does NOT require npm or Javascript** — only standalone binaries
+   or pip-installable servers are allowed
+2. Add the server name to `ensure_installed` in `plugins/lsp.lua`
+3. Add a config entry in the `servers` table in the same file
+4. Mason handles the binary installation
 
 ### Bash Config
 

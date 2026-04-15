@@ -64,11 +64,13 @@ Format on save is automatic for languages with LSP formatting support.
 
 ### Configured LSP Servers (auto-installed via Mason)
 
-| Server    | Languages | Notes                           |
-|-----------|-----------|---------------------------------|
-| `zls`     | Zig       |                                 |
-| `clangd`  | C, C++    | clang-tidy enabled, background index |
-| `pyright` | Python    | basic type checking, auto search paths |
+No npm or Javascript required. All servers are standalone binaries or pip-installed.
+
+| Server    | Languages | Install Method | Notes                           |
+|-----------|-----------|----------------|---------------------------------|
+| `zls`     | Zig       | Binary         |                                 |
+| `clangd`  | C, C++    | Binary         | clang-tidy enabled, background index |
+| `pylsp`   | Python    | pip            | pycodestyle max line length 100 |
 
 ## Telescope (fuzzy finder)
 

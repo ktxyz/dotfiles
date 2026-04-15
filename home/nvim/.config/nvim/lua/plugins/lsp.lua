@@ -60,7 +60,7 @@ return {
       mason.setup()
 
       mason_lsp.setup({
-        ensure_installed = { "zls", "clangd", "pyright" },
+        ensure_installed = { "zls", "clangd", "pylsp" },
       })
 
       -- Server-specific settings
@@ -74,13 +74,11 @@ return {
             "--completion-style=detailed",
           },
         },
-        pyright = {
+        pylsp = {
           settings = {
-            python = {
-              analysis = {
-                typeCheckingMode = "basic",
-                autoSearchPaths = true,
-                useLibraryCodeForTypes = true,
+            pylsp = {
+              plugins = {
+                pycodestyle = { maxLineLength = 100 },
               },
             },
           },
