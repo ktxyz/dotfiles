@@ -128,6 +128,12 @@ should_stow_package() {
                 return 1
                 ;;
         esac
+    else
+        case "$pkg" in
+            ghostty)
+                return 1
+                ;;
+        esac
     fi
 
     return 0
@@ -180,8 +186,8 @@ run_link() {
     backup_dir="$DOTFILES_DIR/.backup/$(date +%Y%m%d%H%M%S)"
     os="$(detect_os)"
 
-    # Collect every file that stow would manage and back up existing
-    # non-symlink copies before stow touches them.
+    # Collect managed target roots and move existing unmanaged
+    # files/directories/symlinks out of the way before stow runs.
     cd "$DOTFILES_DIR/home"
     for pkg in */; do
         pkg="${pkg%/}"
@@ -190,13 +196,26 @@ run_link() {
             continue
         fi
 
-        # Walk the package to find every target file
+        # Derive stow roots from package files: one path component for
+        # top-level files, two components for nested trees (e.g. .config/nvim).
         find "$pkg" -type f | while read -r rel; do
-            target="$HOME/${rel#"$pkg"/}"
-            if [ -f "$target" ] && [ ! -L "$target" ]; then
-                dest="$backup_dir/$rel"
+            rel="${rel#"$pkg"/}"
+            old_ifs="$IFS"
+            IFS='/'
+            set -- $rel
+            IFS="$old_ifs"
+
+            if [ "$#" -ge 2 ]; then
+                printf '%s/%s\n' "$1" "$2"
+            else
+                printf '%s\n' "$1"
+            fi
+        done | sort -u | while read -r root; do
+            target="$HOME/$root"
+            if [ -e "$target" ] || [ -L "$target" ]; then
+                dest="$backup_dir/$root"
                 mkdir -p "$(dirname "$dest")"
-                cp "$target" "$dest"
+                mv "$target" "$dest"
             fi
         done
     done
@@ -205,8 +224,8 @@ run_link() {
         info "Backed up existing configs to $backup_dir"
     fi
 
-    # Now stow is safe — adopt pulls existing files in, then we restore
-    # repo versions so the symlinks point to our config.
+    # Targets were backed up and conflicting files/symlinks moved above.
+    # Use adopt to safely handle existing unmanaged directories.
     for pkg in */; do
         pkg="${pkg%/}"
 

@@ -38,6 +38,7 @@ inside mirrors `$HOME`.
 | `git`    | `.gitconfig`                                     |
 | `nvim`   | `.config/nvim/` (full neovim config)             |
 | `tmux`   | `.config/tmux/tmux.conf` (TPM auto-bootstraps)   |
+| `ghostty`| `.config/ghostty/config` (macOS terminal config) |
 | `hypr`   | `.config/hypr/` (Hyprland, hypridle, hyprlock)   |
 | `waybar` | `.config/waybar/` (status bar config + CSS)      |
 | `foot`   | `.config/foot/foot.ini` (terminal + Tokyo Night) |
@@ -50,6 +51,8 @@ Shell packages are mutually exclusive per install run:
 
 On macOS, Linux desktop packages are skipped during linking by default:
 `hypr`, `waybar`, `mako`, `wofi`, `foot`.
+
+On non-macOS systems, `ghostty` package is skipped during linking.
 
 ### Adding a New Package
 
@@ -74,7 +77,19 @@ macOS (`brew`):
 - **Base**: curl, wget, git, stow, make
 - **Search/nav**: ripgrep, fd, bat, fzf
 - **Dev**: neovim, tmux
+- **Terminal**: ghostty
 - **GNU utils support**: coreutils (for color alias parity)
+- **Font**: font-jetbrains-mono-nerd-font (icons/glyphs for Neovim UI)
+
+## Icons and Nerd Fonts
+
+If icons are missing in Neovim, the shell font is usually the issue.
+
+- Run `./install.sh --packages` to install Nerd Font packages.
+- In your terminal app profile, set the font to **JetBrainsMono Nerd Font**.
+- Restart terminal + Neovim after changing the font.
+
+For Ghostty, this is automated in stowed config under `.config/ghostty/config`.
 
 ## Python Setup
 
@@ -116,6 +131,7 @@ git config --file ~/.config/git/local user.email "new@email.com"
 │   ├── git/
 │   ├── nvim/
 │   ├── tmux/
+│   ├── ghostty/
 │   ├── hypr/
 │   ├── waybar/
 │   ├── foot/

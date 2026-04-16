@@ -15,6 +15,7 @@ This will install `git` if missing, clone the repo to `~/.dotfiles`, install
 packages, set up Python/UV, and link configs into `$HOME`.
 
 On macOS, Homebrew is required before running bootstrap.
+The installer also sets up Ghostty + Nerd Font for terminal icons.
 
 ## Manual usage
 
@@ -57,6 +58,8 @@ dotfiles/
 │   │       ├── aliases.zsh
 │   │       ├── env.zsh
 │   │       └── prompt.zsh
+│   ├── ghostty/
+│   │   └── .config/ghostty/config
 │   └── git/
 │       └── .gitconfig
 └── scripts/

@@ -30,6 +30,7 @@ case "$OS" in
             tmux
 
             base-devel
+            nerd-fonts
         "
 
         info "Installing packages with xbps..."
@@ -62,6 +63,12 @@ case "$OS" in
         info "Installing packages with brew..."
         # shellcheck disable=SC2086
         brew install $BREW_PACKAGES
+
+        info "Installing Ghostty terminal with brew cask..."
+        brew install --cask ghostty
+
+        info "Installing Nerd Font (JetBrainsMono) with brew cask..."
+        brew install --cask font-jetbrains-mono-nerd-font
         ;;
     *)
         die "Unsupported OS for packages install: $OS"
