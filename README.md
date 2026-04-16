@@ -31,6 +31,7 @@ cd ~/.dotfiles
 ./install.sh --python     # python3 + uv
 ./install.sh --debug      # gdb + GEF debugger tooling
 ./install.sh --zls        # build/install ZLS from source
+./install.sh --opencode   # install opencode CLI
 ./install.sh --link       # stow configs into $HOME
 ./install.sh --configure  # interactive setup (git identity, etc.)
 
@@ -74,11 +75,13 @@ dotfiles/
     │   └── utils.sh          # shared helpers
     ├── install/
     │   ├── packages.sh       # system packages (void + macOS)
+    │   ├── opencode.sh       # opencode CLI install
     │   ├── python.sh         # python3 + uv
     │   ├── debug.sh          # gdb + gef setup
     │   └── zls.sh            # zls source build/install
     └── configure/
-        └── git.sh            # prompts for name/email
+        ├── git.sh            # prompts for name/email
+        └── opencode.sh       # prompts for opencode provider setup
 ```
 
 ## Adding a new config

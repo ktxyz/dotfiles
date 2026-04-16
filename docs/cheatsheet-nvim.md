@@ -103,6 +103,26 @@ Ignored patterns: `node_modules`, `.git/`, `zig-cache`, `zig-out`
 
 Source priority: LSP > Snippets > Path > Buffer
 
+## OpenCode (opencode.nvim)
+
+Leader namespace: `<leader>o`
+
+| Key          | Mode        | Action                     |
+|--------------|-------------|----------------------------|
+| `<leader>oa` | Normal/Visual | Ask opencode (`@diagnostics @this`) |
+| `<leader>ox` | Normal/Visual | Open opencode action picker |
+| `<leader>ot` | Normal/Terminal | Toggle opencode terminal/server |
+| `<leader>or` | Normal/Visual | Prompt: review            |
+| `<leader>of` | Normal/Visual | Prompt: fix diagnostics   |
+| `<leader>oT` | Normal/Visual | Prompt: add tests         |
+| `<leader>oc` | Normal      | Compact current session    |
+
+Quality-first usage flow (large repos):
+- Start with `<leader>oa` to include diagnostics and focused selection/context.
+- Use `<leader>or` before applying broad edits.
+- Use `<leader>oT` after implementation changes.
+- Use `<leader>oc` to compact long sessions and reduce context bloat.
+
 ## Git (gitsigns)
 
 | Key          | Action           |

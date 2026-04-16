@@ -20,6 +20,7 @@ do_desktop=false
 do_python=false
 do_debug=false
 do_zls=false
+do_opencode=false
 do_link=false
 do_configure=false
 do_all=true
@@ -33,6 +34,7 @@ while [ "$#" -gt 0 ]; do
         --python)     do_python=true;     do_all=false ;;
         --debug)      do_debug=true;      do_all=false ;;
         --zls)        do_zls=true;        do_all=false ;;
+        --opencode)   do_opencode=true;   do_all=false ;;
         --link)       do_link=true;       do_all=false ;;
         --configure)  do_configure=true;  do_all=false ;;
         --shell)
@@ -41,7 +43,7 @@ while [ "$#" -gt 0 ]; do
             shell_choice="$1"
             ;;
         --help|-h)
-            printf 'Usage: install.sh [--packages] [--drivers] [--desktop] [--python] [--debug] [--zls] [--link] [--configure] [--shell zsh|bash]\n'
+            printf 'Usage: install.sh [--packages] [--drivers] [--desktop] [--python] [--debug] [--zls] [--opencode] [--link] [--configure] [--shell zsh|bash]\n'
             printf '  No flags = run everything.\n'
             exit 0
             ;;
@@ -188,6 +190,11 @@ run_zls() {
     sh "$DOTFILES_DIR/scripts/install/zls.sh"
 }
 
+run_opencode() {
+    info "Installing opencode CLI..."
+    sh "$DOTFILES_DIR/scripts/install/opencode.sh"
+}
+
 run_link() {
     need_cmd stow
 
@@ -271,6 +278,7 @@ normalize_shell_choice
 if [ "$do_all" = true ]; then
     prompt_shell_choice
     run_packages
+    run_opencode
     run_drivers
     run_desktop
     run_python
@@ -283,6 +291,7 @@ else
     [ "$do_python"    = true ] && run_python
     [ "$do_debug"     = true ] && run_debug
     [ "$do_zls"       = true ] && run_zls
+    [ "$do_opencode"  = true ] && run_opencode
     [ "$do_link"      = true ] && run_link
     [ "$do_configure" = true ] && run_configure
 fi

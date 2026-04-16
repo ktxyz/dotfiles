@@ -29,7 +29,18 @@ return {
         lualine_c = { { "filename", path = 1 } },
         lualine_x = { "encoding", "fileformat", "filetype" },
         lualine_y = { "progress" },
-        lualine_z = { "location" },
+        lualine_z = {
+          {
+            function()
+              local ok, opencode = pcall(require, "opencode")
+              if not ok then
+                return ""
+              end
+              return opencode.statusline()
+            end,
+          },
+          "location",
+        },
       },
     },
   },

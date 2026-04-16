@@ -20,6 +20,7 @@ On macOS, install Homebrew first (`https://brew.sh`).
 | `--python`    | Install python3 + UV package manager      |
 | `--debug`     | Install debugger tooling (gdb + GEF)      |
 | `--zls`       | Build and install ZLS from source         |
+| `--opencode`  | Install opencode CLI                       |
 | `--link`      | Stow all configs from `home/` into `$HOME`|
 | `--configure` | Run interactive setup scripts (git identity, etc.) |
 | `--shell zsh\|bash` | Select shell package + login shell target (default: zsh) |
@@ -102,6 +103,19 @@ For Ghostty, this is automated in stowed config under `.config/ghostty/config`.
 - [UV](https://docs.astral.sh/uv/) installed via official script
 - Binaries land in `~/.local/bin` (already in PATH via `env.sh`)
 
+## OpenCode Setup
+
+`./install.sh --opencode` installs the `opencode` CLI.
+
+Install strategy:
+- Package manager first (Homebrew/tap when available)
+- Official install script fallback (`https://opencode.ai/install`)
+
+`./install.sh --configure` includes an `opencode` setup step that can open
+`opencode` so you can run `/connect` for provider auth.
+
+For Neovim integration, run `:checkhealth opencode` after linking config.
+
 ## Debugger Tools
 
 `./install.sh --debug` installs:
@@ -180,13 +194,15 @@ git config --file ~/.config/git/local user.email "new@email.com"
     ├── lib/utils.sh
     ├── install/
     │   ├── packages.sh
+    │   ├── opencode.sh
     │   ├── drivers.sh
     │   ├── desktop.sh
     │   ├── python.sh
     │   ├── debug.sh
     │   └── zls.sh
     └── configure/
-        └── git.sh
+        ├── git.sh
+        └── opencode.sh
 ```
 
 ## XDG Directories
