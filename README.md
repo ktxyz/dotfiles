@@ -1,6 +1,6 @@
 # dotfiles
 
-Portable, modular dotfiles targeting Void Linux. GNU Stow manages symlinks;
+Portable, modular dotfiles targeting Void Linux and macOS. GNU Stow manages symlinks;
 each directory under `home/` is an independent config package.
 
 ## Quick start
@@ -12,7 +12,9 @@ curl -fsSL https://raw.githubusercontent.com/ktxyz/dotfiles/master/bootstrap.sh 
 ```
 
 This will install `git` if missing, clone the repo to `~/.dotfiles`, install
-packages, set up Python/UV, and link all configs into `$HOME`.
+packages, set up Python/UV, and link configs into `$HOME`.
+
+On macOS, Homebrew is required before running bootstrap.
 
 ## Manual usage
 
@@ -24,10 +26,14 @@ cd ~/.dotfiles
 ./install.sh
 
 # Or pick what you need
-./install.sh --packages   # system packages (xbps)
+./install.sh --packages   # system packages (xbps/brew)
 ./install.sh --python     # python3 + uv
 ./install.sh --link       # stow configs into $HOME
 ./install.sh --configure  # interactive setup (git identity, etc.)
+
+# Shell choice (default is zsh)
+./install.sh --shell zsh
+./install.sh --shell bash
 ```
 
 ## Structure
@@ -44,13 +50,20 @@ dotfiles/
 │   │       ├── aliases.sh
 │   │       ├── env.sh
 │   │       └── prompt.sh
+│   ├── zsh/
+│   │   ├── .zprofile
+│   │   ├── .zshrc
+│   │   └── .config/zsh/
+│   │       ├── aliases.zsh
+│   │       ├── env.zsh
+│   │       └── prompt.zsh
 │   └── git/
 │       └── .gitconfig
 └── scripts/
     ├── lib/
     │   └── utils.sh          # shared helpers
     ├── install/
-    │   ├── packages.sh       # void linux packages
+    │   ├── packages.sh       # system packages (void + macOS)
     │   └── python.sh         # python3 + uv
     └── configure/
         └── git.sh            # prompts for name/email

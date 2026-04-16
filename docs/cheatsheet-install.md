@@ -7,20 +7,24 @@ curl -fsSL https://raw.githubusercontent.com/ktxyz/dotfiles/master/bootstrap.sh 
 ```
 
 This installs git (if missing), clones to `~/.dotfiles`, and runs `install.sh`.
+On macOS, install Homebrew first (`https://brew.sh`).
 
 ## install.sh Flags
 
 | Flag          | What It Does                              |
 |---------------|-------------------------------------------|
 | (no flags)    | Run everything                            |
-| `--packages`  | Install system packages via xbps          |
+| `--packages`  | Install system packages via xbps or brew  |
 | `--drivers`   | Detect GPU + install drivers, WiFi/BT firmware |
 | `--desktop`   | Install Hyprland desktop stack + audio    |
 | `--python`    | Install python3 + UV package manager      |
 | `--link`      | Stow all configs from `home/` into `$HOME`|
 | `--configure` | Run interactive setup scripts (git identity, etc.) |
+| `--shell zsh\|bash` | Select shell package + login shell target (default: zsh) |
 
 `--drivers` and `--desktop` auto-skip on macOS.
+
+If shell is not explicitly set, installer prompts for `zsh` or `bash` and defaults to `zsh`.
 
 ## Stow Packages
 
@@ -30,6 +34,7 @@ inside mirrors `$HOME`.
 | Package | What It Links                                    |
 |---------|--------------------------------------------------|
 | `bash`   | `.bashrc`, `.bash_profile`, `.bash_logout`, `.inputrc`, `.config/bash/` |
+| `zsh`    | `.zshrc`, `.zprofile`, `.config/zsh/`            |
 | `git`    | `.gitconfig`                                     |
 | `nvim`   | `.config/nvim/` (full neovim config)             |
 | `tmux`   | `.config/tmux/tmux.conf` (TPM auto-bootstraps)   |
@@ -38,6 +43,13 @@ inside mirrors `$HOME`.
 | `foot`   | `.config/foot/foot.ini` (terminal + Tokyo Night) |
 | `mako`   | `.config/mako/config` (notifications)            |
 | `wofi`   | `.config/wofi/` (app launcher config + CSS)      |
+
+Shell packages are mutually exclusive per install run:
+- default links `zsh`
+- `--shell bash` links `bash`
+
+On macOS, Linux desktop packages are skipped during linking by default:
+`hypr`, `waybar`, `mako`, `wofi`, `foot`.
 
 ### Adding a New Package
 
@@ -50,18 +62,23 @@ The installer uses `stow --adopt` which moves existing files into the stow
 package, then `git checkout -- home/` restores the repo versions. This means
 the repo always wins over pre-existing files.
 
-## System Packages (Void Linux)
+## System Packages
 
-Installed via `xbps-install`:
-
+Void Linux (`xbps-install`):
 - **Base**: curl, wget, git, stow, make
 - **Search/nav**: ripgrep, fd, bat, fzf
 - **Dev**: neovim, tmux
 - **Toolchain**: base-devel (includes gcc, make)
 
+macOS (`brew`):
+- **Base**: curl, wget, git, stow, make
+- **Search/nav**: ripgrep, fd, bat, fzf
+- **Dev**: neovim, tmux
+- **GNU utils support**: coreutils (for color alias parity)
+
 ## Python Setup
 
-- `python3` installed via xbps
+- `python3` installed via xbps (Void) or brew (macOS)
 - [UV](https://docs.astral.sh/uv/) installed via official script
 - Binaries land in `~/.local/bin` (already in PATH via `env.sh`)
 
@@ -95,6 +112,7 @@ git config --file ~/.config/git/local user.email "new@email.com"
 ├── docs/                     # cheatsheets and docs
 ├── home/                     # stow packages
 │   ├── bash/
+│   ├── zsh/
 │   ├── git/
 │   ├── nvim/
 │   ├── tmux/

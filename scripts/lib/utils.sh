@@ -17,9 +17,13 @@ err()   { _color "31" "[error] $*"; }
 die()   { err "$@"; exit 1; }
 
 # ---------------------------------------------------------------------------
-# OS detection (reads /etc/os-release)
+# OS detection
 # ---------------------------------------------------------------------------
 detect_os() {
+    case "$(uname -s 2>/dev/null)" in
+        Darwin) printf '%s' "darwin"; return ;;
+    esac
+
     if [ -f /etc/os-release ]; then
         # shellcheck disable=SC1091
         . /etc/os-release

@@ -1,40 +1,71 @@
 #!/bin/sh
-# Install system packages on Void Linux via xbps.
+# Install system packages.
 set -e
 
 SCRIPTS_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 . "$SCRIPTS_DIR/lib/utils.sh"
 
 OS="$(detect_os)"
-if [ "$OS" != "void" ]; then
-    die "packages.sh only supports Void Linux (detected: $OS)"
-fi
 
-need_root
+case "$OS" in
+    void)
+        need_root
 
-info "Syncing repositories and updating system..."
-xbps-install -Syu
+        info "Syncing repositories and updating system..."
+        xbps-install -Syu
 
-PACKAGES="
-    curl
-    wget
-    git
-    stow
-    make
+        PACKAGES="
+            curl
+            wget
+            git
+            stow
+            make
 
-    ripgrep
-    fd
-    bat
-    fzf
+            ripgrep
+            fd
+            bat
+            fzf
 
-    neovim
-    tmux
+            neovim
+            tmux
 
-    base-devel
-"
+            base-devel
+        "
 
-info "Installing packages..."
-# shellcheck disable=SC2086
-xbps-install -y $PACKAGES
+        info "Installing packages with xbps..."
+        # shellcheck disable=SC2086
+        xbps-install -y $PACKAGES
+        ;;
+    darwin)
+        need_cmd brew
+
+        BREW_PACKAGES="
+            curl
+            wget
+            git
+            stow
+            make
+
+            ripgrep
+            fd
+            bat
+            fzf
+
+            neovim
+            tmux
+            coreutils
+        "
+
+        info "Updating Homebrew metadata..."
+        brew update
+
+        info "Installing packages with brew..."
+        # shellcheck disable=SC2086
+        brew install $BREW_PACKAGES
+        ;;
+    *)
+        die "Unsupported OS for packages install: $OS"
+        ;;
+esac
 
 ok "System packages installed."

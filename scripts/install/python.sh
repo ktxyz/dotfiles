@@ -14,6 +14,10 @@ if ! has_cmd python3; then
     info "Installing python3..."
     case "$OS" in
         void) sudo xbps-install -y python3 ;;
+        darwin)
+            need_cmd brew
+            brew install python
+            ;;
         *)    die "Unsupported OS for python install: $OS" ;;
     esac
 else

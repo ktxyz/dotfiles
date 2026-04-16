@@ -9,19 +9,37 @@ REPO="https://github.com/ktxyz/dotfiles.git"
 _info() { printf '\033[34m[info]  %s\033[0m\n' "$*"; }
 _err()  { printf '\033[31m[error] %s\033[0m\n' "$*"; exit 1; }
 
-# --- Ensure git is available ---
-if ! command -v git >/dev/null 2>&1; then
-    _info "git not found, installing..."
+detect_os() {
+    case "$(uname -s 2>/dev/null)" in
+        Darwin) printf '%s' "darwin"; return ;;
+    esac
+
     if [ -f /etc/os-release ]; then
         # shellcheck disable=SC1091
         . /etc/os-release
-        case "$ID" in
-            void)   sudo xbps-install -Sy git ;;
-            *)      _err "Unsupported OS for bootstrap: $ID" ;;
-        esac
+        printf '%s' "$ID"
     else
-        _err "Cannot detect OS — install git manually and re-run."
+        printf '%s' "unknown"
     fi
+}
+
+# --- Ensure git is available ---
+if ! command -v git >/dev/null 2>&1; then
+    _info "git not found, installing..."
+    case "$(detect_os)" in
+        void)
+            sudo xbps-install -Sy git
+            ;;
+        darwin)
+            if ! command -v brew >/dev/null 2>&1; then
+                _err "Homebrew is required on macOS. Install brew first: https://brew.sh"
+            fi
+            brew install git
+            ;;
+        *)
+            _err "Unsupported OS for bootstrap. Install git manually and re-run."
+            ;;
+    esac
 fi
 
 # --- Clone or update the repo ---

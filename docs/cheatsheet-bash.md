@@ -1,5 +1,8 @@
 # Bash Configuration Cheatsheet
 
+Bash remains fully supported and selectable via `install.sh --shell bash`.
+Installer default shell is `zsh`.
+
 ## Shell Startup Order
 
 1. Login shell runs `~/.bash_profile` which sources `~/.bashrc`
@@ -26,10 +29,10 @@ Files loaded: `aliases.sh` -> `env.sh` -> `prompt.sh` (alphabetical)
 
 | Alias  | Expands To                               |
 |--------|------------------------------------------|
-| `ls`   | `ls --color=auto`                        |
+| `ls`   | `ls --color=auto` or `gls --color=auto` (macOS fallback) |
 | `la`   | `ls -A`                                  |
-| `ll`   | `ls -lAh`                                |
-| `grep` | `grep --color=auto`                      |
+| `ll`   | `ls -lAh` or `gls -lAh`                  |
+| `grep` | `grep --color=auto` or `ggrep --color=auto` (when available) |
 | `..`   | `cd ..`                                  |
 | `...`  | `cd ../..`                               |
 | `v`    | `nvim`                                   |
