@@ -107,9 +107,11 @@ For Ghostty, this is automated in stowed config under `.config/ghostty/config`.
 `./install.sh --debug` installs:
 - `gdb`
 - [GEF](https://github.com/hugsy/gef) at `~/.config/gdb/gef.py`
+- `readelf` support (via `binutils` + shim on macOS)
 
 On macOS, `gdb` also requires code-signing before process attach works.
 After install, run your signing flow and then verify with `gdb --version`.
+If GEF reported missing `readelf` before, rerun `./install.sh --debug`.
 
 ## Zig / ZLS
 
