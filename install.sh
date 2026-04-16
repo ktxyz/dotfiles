@@ -18,6 +18,7 @@ do_packages=false
 do_drivers=false
 do_desktop=false
 do_python=false
+do_debug=false
 do_link=false
 do_configure=false
 do_all=true
@@ -29,6 +30,7 @@ while [ "$#" -gt 0 ]; do
         --drivers)    do_drivers=true;    do_all=false ;;
         --desktop)    do_desktop=true;    do_all=false ;;
         --python)     do_python=true;     do_all=false ;;
+        --debug)      do_debug=true;      do_all=false ;;
         --link)       do_link=true;       do_all=false ;;
         --configure)  do_configure=true;  do_all=false ;;
         --shell)
@@ -37,7 +39,7 @@ while [ "$#" -gt 0 ]; do
             shell_choice="$1"
             ;;
         --help|-h)
-            printf 'Usage: install.sh [--packages] [--drivers] [--desktop] [--python] [--link] [--configure] [--shell zsh|bash]\n'
+            printf 'Usage: install.sh [--packages] [--drivers] [--desktop] [--python] [--debug] [--link] [--configure] [--shell zsh|bash]\n'
             printf '  No flags = run everything.\n'
             exit 0
             ;;
@@ -174,6 +176,11 @@ run_python() {
     sh "$DOTFILES_DIR/scripts/install/python.sh"
 }
 
+run_debug() {
+    info "Installing debugger tooling..."
+    sh "$DOTFILES_DIR/scripts/install/debug.sh"
+}
+
 run_link() {
     need_cmd stow
 
@@ -267,6 +274,7 @@ else
     [ "$do_drivers"   = true ] && run_drivers
     [ "$do_desktop"   = true ] && run_desktop
     [ "$do_python"    = true ] && run_python
+    [ "$do_debug"     = true ] && run_debug
     [ "$do_link"      = true ] && run_link
     [ "$do_configure" = true ] && run_configure
 fi

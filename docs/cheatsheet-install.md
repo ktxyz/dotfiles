@@ -18,6 +18,7 @@ On macOS, install Homebrew first (`https://brew.sh`).
 | `--drivers`   | Detect GPU + install drivers, WiFi/BT firmware |
 | `--desktop`   | Install Hyprland desktop stack + audio    |
 | `--python`    | Install python3 + UV package manager      |
+| `--debug`     | Install debugger tooling (gdb + GEF)      |
 | `--link`      | Stow all configs from `home/` into `$HOME`|
 | `--configure` | Run interactive setup scripts (git identity, etc.) |
 | `--shell zsh\|bash` | Select shell package + login shell target (default: zsh) |
@@ -71,12 +72,14 @@ Void Linux (`xbps-install`):
 - **Base**: curl, wget, git, stow, make
 - **Search/nav**: ripgrep, fd, bat, fzf
 - **Dev**: neovim, tmux
+- **Prompt**: starship
 - **Toolchain**: base-devel (includes gcc, make)
 
 macOS (`brew`):
 - **Base**: curl, wget, git, stow, make
 - **Search/nav**: ripgrep, fd, bat, fzf
 - **Dev**: neovim, tmux
+- **Prompt**: starship
 - **Terminal**: ghostty
 - **GNU utils support**: coreutils (for color alias parity)
 - **Font**: font-jetbrains-mono-nerd-font (icons/glyphs for Neovim UI)
@@ -96,6 +99,15 @@ For Ghostty, this is automated in stowed config under `.config/ghostty/config`.
 - `python3` installed via xbps (Void) or brew (macOS)
 - [UV](https://docs.astral.sh/uv/) installed via official script
 - Binaries land in `~/.local/bin` (already in PATH via `env.sh`)
+
+## Debugger Tools
+
+`./install.sh --debug` installs:
+- `gdb`
+- [GEF](https://github.com/hugsy/gef) at `~/.config/gdb/gef.py`
+
+On macOS, `gdb` also requires code-signing before process attach works.
+After install, run your signing flow and then verify with `gdb --version`.
 
 ## Configure Scripts
 
@@ -143,7 +155,8 @@ git config --file ~/.config/git/local user.email "new@email.com"
     │   ├── packages.sh
     │   ├── drivers.sh
     │   ├── desktop.sh
-    │   └── python.sh
+    │   ├── python.sh
+    │   └── debug.sh
     └── configure/
         └── git.sh
 ```

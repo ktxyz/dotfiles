@@ -29,6 +29,7 @@ cd ~/.dotfiles
 # Or pick what you need
 ./install.sh --packages   # system packages (xbps/brew)
 ./install.sh --python     # python3 + uv
+./install.sh --debug      # gdb + GEF debugger tooling
 ./install.sh --link       # stow configs into $HOME
 ./install.sh --configure  # interactive setup (git identity, etc.)
 
@@ -67,7 +68,8 @@ dotfiles/
     │   └── utils.sh          # shared helpers
     ├── install/
     │   ├── packages.sh       # system packages (void + macOS)
-    │   └── python.sh         # python3 + uv
+    │   ├── python.sh         # python3 + uv
+    │   └── debug.sh          # gdb + gef setup
     └── configure/
         └── git.sh            # prompts for name/email
 ```

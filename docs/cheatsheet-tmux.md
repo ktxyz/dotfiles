@@ -27,6 +27,7 @@ Prefix key: `Ctrl-Space` (shown as `<P>` below)
 | Key       | Action                       |
 |-----------|------------------------------|
 | `<P> c`   | New window (keeps cwd)       |
+| `<P> S`   | Session/window tree chooser  |
 | `<P> n`   | Next window                  |
 | `<P> p`   | Previous window              |
 | `<P> 1-9` | Switch to window by number   |
@@ -68,6 +69,7 @@ Prefix key: `Ctrl-Space` (shown as `<P>` below)
 | `<P> z` | Toggle pane zoom (fullscreen) |
 | `<P> q` | Show pane numbers         |
 | `<P> !` | Convert pane to window    |
+| `<P> f` | Fuzzy-find windows (tmux-fzf) |
 
 ## Copy Mode
 
@@ -103,6 +105,15 @@ Sessions persist across reboots.
 | `<P> alt-u`  | Remove unused plugins |
 
 TPM auto-bootstraps on first tmux launch (clones itself from GitHub).
+
+Installed plugin set includes:
+- tmux-sensible
+- tmux-yank
+- tmux-fzf
+- tmux-prefix-highlight
+- tmux-resurrect
+- tmux-continuum
+- tokyonight
 
 ## Config
 

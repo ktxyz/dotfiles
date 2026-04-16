@@ -28,6 +28,7 @@ case "$OS" in
 
             neovim
             tmux
+            starship
 
             base-devel
             nerd-fonts
@@ -54,6 +55,7 @@ case "$OS" in
 
             neovim
             tmux
+            starship
             coreutils
         "
 

@@ -12,6 +12,7 @@ else
 fi
 
 alias la='ls -A'
+alias lt='ls -lahtr'
 
 if grep --color=auto '' /dev/null >/dev/null 2>&1; then
     alias grep='grep --color=auto'
@@ -23,7 +24,18 @@ alias ..='cd ..'
 alias ...='cd ../..'
 
 alias v='nvim'
+alias c='clear'
+
+alias mkdir='mkdir -p'
+alias rm='rm -i'
+alias cp='cp -i'
+alias mv='mv -i'
 
 alias gs='git status'
+alias ga='git add'
 alias gd='git diff'
+alias gdc='git diff --cached'
+alias gc='git commit'
+alias gco='git checkout'
+alias glg='git log --graph --decorate --oneline --all'
 alias gl='git log --oneline --graph --decorate -20'

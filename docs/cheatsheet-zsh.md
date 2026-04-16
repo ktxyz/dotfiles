@@ -6,7 +6,7 @@
 2. Interactive shell reads `~/.zshrc`
 3. `~/.zshrc` guards for non-interactive, then sources `~/.config/zsh/*.zsh` in glob order
 
-Files loaded: `aliases.zsh` -> `env.zsh` -> `prompt.zsh` (alphabetical)
+Files loaded: `aliases.zsh` -> `env.zsh` -> `plugins.zsh` -> `prompt.zsh` (alphabetical)
 
 ## Environment (env.zsh)
 
@@ -33,20 +33,42 @@ History options:
 |--------|------------------------------------------|
 | `ls`   | `ls --color=auto` or `gls --color=auto` (macOS fallback) |
 | `la`   | `ls -A`                                  |
+| `lt`   | `ls -lahtr`                              |
 | `ll`   | `ls -lAh` or `gls -lAh`                  |
 | `grep` | `grep --color=auto` or `ggrep --color=auto` (when available) |
 | `..`   | `cd ..`                                  |
 | `...`  | `cd ../..`                               |
 | `v`    | `nvim`                                   |
+| `c`    | `clear`                                  |
+| `mkdir`| `mkdir -p`                               |
+| `rm`   | `rm -i`                                  |
+| `cp`   | `cp -i`                                  |
+| `mv`   | `mv -i`                                  |
+| `ga`   | `git add`                                |
 | `gs`   | `git status`                             |
 | `gd`   | `git diff`                               |
+| `gdc`  | `git diff --cached`                      |
+| `gc`   | `git commit`                             |
+| `gco`  | `git checkout`                           |
+| `glg`  | `git log --graph --decorate --oneline --all` |
 | `gl`   | `git log --oneline --graph --decorate -20` |
+
+## Plugins (plugins.zsh)
+
+Auto-bootstrapped under `~/.local/share/zsh/plugins`:
+- `zsh-autosuggestions`
+- `zsh-syntax-highlighting`
+- `zsh-history-substring-search`
+- `fzf-tab`
+
+Completion behavior:
+- case-insensitive completion matching
+- menu selection enabled
 
 ## Prompt (prompt.zsh)
 
-Format: `user@host:path (branch)#`
+Prompt behavior:
+- uses Starship when available (`starship init zsh`)
+- falls back to built-in `user@host:path (branch)#` prompt if Starship is missing
 
-- Green: `user@host`
-- Blue: working directory
-- Yellow: git branch (only shown inside a repo)
-- Prompt character: `%#` (`#` as root, `%` as user)
+- Fallback colors: green host/user, blue path, yellow branch
