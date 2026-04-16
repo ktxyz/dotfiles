@@ -8,7 +8,6 @@ return {
       "hrsh7th/cmp-nvim-lsp",
     },
     config = function()
-      local lspconfig = require("lspconfig")
       local mason = require("mason")
       local mason_lsp = require("mason-lspconfig")
       local cmp_lsp = require("cmp_nvim_lsp")
@@ -60,12 +59,16 @@ return {
       mason.setup()
 
       mason_lsp.setup({
-        ensure_installed = { "zls", "clangd", "pylsp" },
+        ensure_installed = { "clangd", "pylsp" },
       })
 
       -- Server-specific settings
       local servers = {
-        zls = {},
+        zls = {
+          cmd = {
+            (vim.fn.executable(vim.fn.expand("~/.local/bin/zls")) == 1 and vim.fn.expand("~/.local/bin/zls")) or "zls",
+          },
+        },
         clangd = {
           cmd = {
             "clangd",
@@ -87,7 +90,8 @@ return {
 
       for server, config in pairs(servers) do
         config.capabilities = capabilities
-        lspconfig[server].setup(config)
+        vim.lsp.config(server, config)
+        vim.lsp.enable(server)
       end
     end,
   },

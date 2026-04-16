@@ -30,6 +30,7 @@ cd ~/.dotfiles
 ./install.sh --packages   # system packages (xbps/brew)
 ./install.sh --python     # python3 + uv
 ./install.sh --debug      # gdb + GEF debugger tooling
+./install.sh --zls        # build/install ZLS from source
 ./install.sh --link       # stow configs into $HOME
 ./install.sh --configure  # interactive setup (git identity, etc.)
 
@@ -37,6 +38,11 @@ cd ~/.dotfiles
 ./install.sh --shell zsh
 ./install.sh --shell bash
 ```
+
+Note: `--zls` defaults to ZLS `master`, which can require a Zig nightly/dev compiler.
+Use `ZLS_REF=<tag>` if you want to pin a specific release tag.
+On macOS, `./install.sh --packages` installs `zigup` and sets Zig nightly in `~/.local/bin/zig`.
+When running `./install.sh --zls`, Zig is pinned to the exact version required by that ZLS ref.
 
 ## Structure
 
@@ -69,7 +75,8 @@ dotfiles/
     ├── install/
     │   ├── packages.sh       # system packages (void + macOS)
     │   ├── python.sh         # python3 + uv
-    │   └── debug.sh          # gdb + gef setup
+    │   ├── debug.sh          # gdb + gef setup
+    │   └── zls.sh            # zls source build/install
     └── configure/
         └── git.sh            # prompts for name/email
 ```

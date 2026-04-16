@@ -57,7 +57,12 @@ case "$OS" in
             tmux
             starship
             coreutils
+            zigup
         "
+
+        XDG_BIN_HOME="${XDG_BIN_HOME:-$HOME/.local/bin}"
+        PATH="$XDG_BIN_HOME:$PATH"
+        export PATH
 
         info "Updating Homebrew metadata..."
         brew update
@@ -65,6 +70,10 @@ case "$OS" in
         info "Installing packages with brew..."
         # shellcheck disable=SC2086
         brew install $BREW_PACKAGES
+
+        info "Installing/updating Zig nightly via zigup..."
+        mkdir -p "$XDG_BIN_HOME"
+        zigup --path-link "$XDG_BIN_HOME/zig" master
 
         info "Installing Ghostty terminal with brew cask..."
         brew install --cask ghostty

@@ -19,6 +19,7 @@ On macOS, install Homebrew first (`https://brew.sh`).
 | `--desktop`   | Install Hyprland desktop stack + audio    |
 | `--python`    | Install python3 + UV package manager      |
 | `--debug`     | Install debugger tooling (gdb + GEF)      |
+| `--zls`       | Build and install ZLS from source         |
 | `--link`      | Stow all configs from `home/` into `$HOME`|
 | `--configure` | Run interactive setup scripts (git identity, etc.) |
 | `--shell zsh\|bash` | Select shell package + login shell target (default: zsh) |
@@ -79,6 +80,7 @@ macOS (`brew`):
 - **Base**: curl, wget, git, stow, make
 - **Search/nav**: ripgrep, fd, bat, fzf
 - **Dev**: neovim, tmux
+- **Zig manager**: zigup
 - **Prompt**: starship
 - **Terminal**: ghostty
 - **GNU utils support**: coreutils (for color alias parity)
@@ -108,6 +110,29 @@ For Ghostty, this is automated in stowed config under `.config/ghostty/config`.
 
 On macOS, `gdb` also requires code-signing before process attach works.
 After install, run your signing flow and then verify with `gdb --version`.
+
+## Zig / ZLS
+
+`./install.sh --zls` builds ZLS directly from source (default ref: `master`) and installs to:
+- `~/.local/bin/zls`
+
+Requirements:
+- `zig`
+- `git`
+
+On macOS, `./install.sh --packages` installs `zigup` and sets Zig nightly (`master`) in `~/.local/bin/zig`.
+`./install.sh --zls` reads ZLS's required Zig version from `build.zig.zon` and auto-switches Zig to that exact version.
+
+Optional ref override:
+```sh
+ZLS_REF=<tag-or-branch> ./install.sh --zls
+```
+
+Compatibility note:
+- ZLS `master` may require a specific Zig **dev/nightly** build, not just "latest nightly".
+- Installer auto-pins to ZLS required version on macOS via `zigup`.
+
+Neovim LSP is configured to prefer `~/.local/bin/zls` over Mason-managed ZLS.
 
 ## Configure Scripts
 
@@ -156,7 +181,8 @@ git config --file ~/.config/git/local user.email "new@email.com"
     │   ├── drivers.sh
     │   ├── desktop.sh
     │   ├── python.sh
-    │   └── debug.sh
+    │   ├── debug.sh
+    │   └── zls.sh
     └── configure/
         └── git.sh
 ```
